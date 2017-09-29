@@ -1,29 +1,32 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
-import cloudinary as Cloud
+import cloudinary
 from .models import Pic
 from .forms import PicForm
-from django import forms
-from cloudinary.forms import cl_init_js_callbacks
 
 def upload(request):
 	# Cloud.uploader.upload("/home/jajodia/PycharmProjects/img_con/img_con/car.jpg", public_id="car")
 	# car = Cloud.CloudinaryImage('car.jpg')
 	# print(car.url)
-	backend_form = PicForm(request.POST, request.FILES)
-	if backend_form.is_valid():
-		instance = backend_form.save(commit=False)
-		instance.save()
-		return redirect("show")
+	if request.method == 'POST':
+		form = PicForm(request.POST, request.FILES)
+		if form.is_valid():
+			image = request.FILES['image']
+			name = request.POST['name']
+			cloudinary.uploader.upload(image, public_id=name)
+			instance = Pic(name=name)
+			instance.save()
 
-	context = { 'backend_form': backend_form }
+			return HttpResponseRedirect('show')
+	else:
+		form = PicForm()
+
+	context = { 'backend_form': form }
 	return render(request, "index.html", context)
 
 def show(request):
 	photo = Pic.objects.all()
-	photo_pic = Cloud.CloudinaryImage(photo)
-	url = photo_pic.url
-	context = { 'photo': photo_pic, 'photo_url': url }
+	context = { 'photo': photo  }
 	return render(request, 'show.html', context)
 
 

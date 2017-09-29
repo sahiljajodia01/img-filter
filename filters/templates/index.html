@@ -5,10 +5,11 @@
 </head>
 <body>
 	<h1>Django Image Filter</h1>
-	<div id="backend_upload">
-		<form action="{% url 'Upload' %}" method="post" enctype="multipart/formdata" action="">
+	<div>
+		<form action="" method='POST' enctype='multipart/form-data' action="">
 			{% csrf_token %}
-			{{ backend_form.as_p }}
+            <input type="text" name="name" placeholder="Enter name of file here">
+			<input type="file" name="image">
 			<input type="submit" value="Upload">
 		</form>
 
