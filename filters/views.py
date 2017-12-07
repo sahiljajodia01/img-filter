@@ -13,7 +13,8 @@ def upload(request):
 		if form.is_valid():
 			image = request.FILES['image']
 			name = request.POST['name']
-			cloudinary.uploader.upload(image, public_id=name)
+			filter = request.POST['filter']
+			cloudinary.uploader.upload(image, public_id=name, effect=filter)
 			instance = Pic(name=name)
 			instance.save()
 
@@ -26,7 +27,7 @@ def upload(request):
 
 def show(request):
 	photo = Pic.objects.all()
-	context = { 'photo': photo  }
+	context = { 'photo': photo }
 	return render(request, 'show.html', context)
 
 

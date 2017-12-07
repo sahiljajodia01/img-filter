@@ -1,0 +1,15 @@
+{% load cloudinary %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% for obj in photo %}
+    {% if obj %}
+    {% cloudinary obj.name width='1000' height='1000' %}
+    {% endif %}
+    {% endfor %}
+</body>
+</html>

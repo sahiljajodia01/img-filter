@@ -8,10 +8,8 @@
 	<div>
 		<form action="" method='POST' enctype='multipart/form-data' action="">
 			{% csrf_token %}
-            <input type="text" name="name" placeholder="Enter name of file here">
-			<input type="file" name="image">
-			<input type="submit" value="Upload">
+            {{ backend_form.as_p }}
+            <button type="submit">Submit</button>
 		</form>
-
-	</div>
+    </div>
 </body>
